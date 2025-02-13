@@ -49,7 +49,7 @@ export const PART_HANDLES = {
       type: "source",
       position: Position.Right,
       id: "rearAxle-out2",
-      style: { top: "90px" },
+      style: { top: "60px" },
     },
   ],
   rearWheel1: [
