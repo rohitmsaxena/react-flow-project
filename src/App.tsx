@@ -7,7 +7,7 @@ export default function App() {
       <div className="navbar bg-base-100">
         <div className="navbar-start"></div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">React Flow</a>{" "}
+          <a className="btn btn-ghost text-xl">React Flow Project</a>
         </div>
       </div>
       <div className="flex justify-center items-center h-[calc(100vh-4rem)] w-full">
