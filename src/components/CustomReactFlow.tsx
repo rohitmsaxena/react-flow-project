@@ -1,6 +1,5 @@
 import {
   addEdge,
-  Background,
   ConnectionMode,
   ControlButton,
   Controls,
@@ -50,28 +49,45 @@ const initialNodes = [
     position: { x: 800, y: 250 },
   },
   {
+    id: "axelAssembly",
+    type: "engineeringPart",
+    data: { type: "part", subType: PART_TYPES.rearAxleAssembly },
+    position: { x: 1200, y: 250 },
+    style: { width: 1200, height: 400 },
+  },
+  {
     id: "differential",
     type: "engineeringPart",
     data: { type: "part", subType: PART_TYPES.differential },
-    position: { x: 1200, y: 250 },
+    position: { x: 25, y: 100 },
+    parentId: "axelAssembly",
+    extent: "parent",
   },
   {
     id: "rearAxle",
     type: "engineeringPart",
     data: { type: "part", subType: PART_TYPES.rearAxle },
-    position: { x: 1600, y: 250 },
+    position: { x: 400, y: 100 },
+    parentId: "axelAssembly",
+    extent: "parent",
   },
   {
     id: "rearWheel1",
     type: "engineeringPart",
     data: { type: "part", subType: PART_TYPES.rearWheel1 },
-    position: { x: 2000, y: 250 },
+    // position: { x: 2000, y: 250 },
+    position: { x: 800, y: 100 },
+    parentId: "axelAssembly",
+    extent: "parent",
   },
   {
     id: "rearWheel2",
     type: "engineeringPart",
     data: { type: "part", subType: PART_TYPES.rearWheel2 },
-    position: { x: 2000, y: 350 },
+    // position: { x: 2000, y: 350 },
+    position: { x: 800, y: 250 },
+    parentId: "axelAssembly",
+    extent: "parent",
   },
 ];
 
@@ -107,6 +123,7 @@ const initialEdges = [
     sourceHandle: "driveshaft-out",
     target: "differential",
     targetHandle: "differential-in",
+    zIndex: 1000000,
   },
   {
     id: "differential-rearAxle",
@@ -114,6 +131,7 @@ const initialEdges = [
     sourceHandle: "differential-out",
     target: "rearAxle",
     targetHandle: "rearAxle-in",
+    zIndex: 1000000,
   },
   {
     id: "rearAxle-wheel1",
@@ -121,6 +139,7 @@ const initialEdges = [
     sourceHandle: "rearAxle-out1",
     target: "rearWheel1",
     targetHandle: "rearWheel1-in",
+    zIndex: 1000000,
   },
   {
     id: "rearAxle-wheel2",
@@ -128,6 +147,7 @@ const initialEdges = [
     sourceHandle: "rearAxle-out2",
     target: "rearWheel2",
     targetHandle: "rearWheel2-in",
+    zIndex: 1000000,
   },
 ];
 
@@ -184,7 +204,7 @@ export default function CustomReactFlow() {
         <Controls>
           <ControlButton onClick={() => addNode()}>➕</ControlButton>
         </Controls>
-        <Background color={"#ccc"} variant="cross" />
+        {/*<Background color={"#ccc"} variant="cross" />*/}
       </ReactFlow>
     </div>
   );
