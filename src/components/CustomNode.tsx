@@ -85,7 +85,9 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
             y: 100,
           },
           extent: "parent",
-          // style: { width: 100, height: 50 },
+          style: {
+            zIndex: 2,
+          },
         },
       ];
     });
@@ -104,12 +106,9 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
       }}
     >
       <NodeResizer minWidth={200} minHeight={30} />
-      {/*<div className="text-xs font-bold text-gray-600">*/}
-      {/*  &lt;&lt;{data.type}&gt;&gt;*/}
-      {/*</div>*/}
       <div style={{ position: "relative", width: "100%" }}>
         <button
-          onClick={() => onAddInside(id)}
+          onClick={() => onAddInside()}
           style={{
             position: "absolute",
             top: "0",
@@ -143,7 +142,6 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
         </button>
       </div>
 
-      {/* Dropdown to Select Part Type */}
       <select
         value={selectedType}
         onChange={handleChange}
@@ -155,9 +153,6 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
           </option>
         ))}
       </select>
-      {/*<div>*/}
-      {/*  handleCount: {PART_HANDLES[partKey]?.length || null} {data.subType}*/}
-      {/*</div>*/}
 
       {PART_HANDLES[partKey]?.map((handle: any) => (
         <Handle

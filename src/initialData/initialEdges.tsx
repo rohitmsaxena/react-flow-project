@@ -24,7 +24,7 @@ export const initialEdges = [
     target: "vehicleController",
     label: "vehicleSoftware",
     markerEnd: { type: "arrowclosed", width: 10, height: 10 },
-    zIndex: 1000,
+    zIndex: 2,
   },
   {
     id: "transmission-driveshaft",
@@ -39,7 +39,7 @@ export const initialEdges = [
     sourceHandle: "driveshaft-out",
     target: "differential",
     targetHandle: "differential-in",
-    zIndex: 1000000,
+    zIndex: 2,
   },
   {
     id: "differential-rearAxle",
@@ -47,7 +47,7 @@ export const initialEdges = [
     sourceHandle: "differential-out",
     target: "rearAxle",
     targetHandle: "rearAxle-in",
-    zIndex: 1000000,
+    zIndex: 2,
   },
   {
     id: "rearAxle-wheel1",
@@ -55,7 +55,7 @@ export const initialEdges = [
     sourceHandle: "rearAxle-out1",
     target: "rearWheel1",
     targetHandle: "rearWheel1-in",
-    zIndex: 1000000,
+    zIndex: 2,
   },
   {
     id: "rearAxle-wheel2",
@@ -63,6 +63,6 @@ export const initialEdges = [
     sourceHandle: "rearAxle-out2",
     target: "rearWheel2",
     targetHandle: "rearWheel2-in",
-    zIndex: 1000000,
+    zIndex: 2,
   },
 ];

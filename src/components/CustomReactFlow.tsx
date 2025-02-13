@@ -60,11 +60,11 @@ export default function CustomReactFlow() {
         nodeTypes={nodeTypes}
         connectionMode={ConnectionMode.Loose}
         fitView={true}
+        elevateEdgesOnSelect={true}
         defaultEdgeOptions={{
           style: {
             stroke: "black",
             strokeWidth: 4,
-            zIndex: 10000,
           },
         }}
       >
