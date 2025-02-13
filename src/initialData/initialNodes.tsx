@@ -1,6 +1,7 @@
 import { PART_TYPES } from "../types/customTypes";
+import { type Node } from "@xyflow/react";
 
-export const initialNodes = [
+export const initialNodes: Node[] = [
   {
     id: "fuelTank",
     type: "engineeringPart",

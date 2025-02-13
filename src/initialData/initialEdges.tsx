@@ -1,4 +1,6 @@
-export const initialEdges = [
+import { type Edge, MarkerType } from "@xyflow/react";
+
+export const initialEdges: Edge[] = [
   {
     id: "fuelTank-to-engine",
     source: "fuelTank", // Node ID of the fuel
@@ -6,7 +8,7 @@ export const initialEdges = [
     target: "engine", // Node ID of the engine
     targetHandle: "engine-in", // Handle ID of the engine node
     label: "fuel",
-    markerEnd: { type: "arrowclosed", width: 10, height: 10 },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10 },
   },
   {
     id: "engine-to-transmission",
@@ -15,7 +17,7 @@ export const initialEdges = [
     target: "transmission",
     targetHandle: "transmission-in",
     label: "torque",
-    markerEnd: { type: "arrowclosed", width: 10, height: 10 },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10 },
   },
   {
     id: "engine-vehicleController",
@@ -23,7 +25,7 @@ export const initialEdges = [
     sourceHandle: "engine-status",
     target: "vehicleController",
     label: "vehicleSoftware",
-    markerEnd: { type: "arrowclosed", width: 10, height: 10 },
+    markerEnd: { type: MarkerType.ArrowClosed, width: 10, height: 10 },
     zIndex: 2,
   },
   {
