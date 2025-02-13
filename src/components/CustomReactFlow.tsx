@@ -48,9 +48,7 @@ export default function CustomReactFlow() {
 
   return (
     <div className="border-2 border-gray-500 rounded-lg shadow-lg bg-white p-2 w-[90vw] h-[80vh] flex justify-center items-center">
-      {/*<div style={{ height: "100%", width: "100%" }}>*/}
       <ReactFlow
-        // ref={ref}
         nodes={nodes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}

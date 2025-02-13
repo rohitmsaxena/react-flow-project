@@ -92,7 +92,6 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
       ];
     });
 
-    // 🔥 Ensure React Flow updates the layout
     setTimeout(() => updateNodeInternals(id), 0);
   };
 
@@ -161,11 +160,11 @@ const CustomNode = ({ data, style, id, width, height }: CustomNodeType) => {
           position={handle.position}
           id={handle.id}
           style={{
-            width: "14px", // Adjust size
+            width: "14px",
             height: "14px",
-            backgroundColor: "white", // White inside
-            border: "2px solid black", // Black border
-            borderRadius: "0px", // Ensures it stays square
+            backgroundColor: "white",
+            border: "2px solid black",
+            borderRadius: "0px",
             ...(handle.style || {}),
           }}
         />
