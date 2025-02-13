@@ -1,7 +1,11 @@
 import {
   addEdge,
+  Background,
   ConnectionMode,
+  ControlButton,
+  Controls,
   ReactFlow,
+  reconnectEdge,
   useEdgesState,
   useNodesState,
 } from "@xyflow/react";
@@ -13,63 +17,73 @@ import { PART_TYPES } from "../types/customTypes";
 
 const initialNodes = [
   {
+    id: "fuelTank",
+    type: "engineeringPart",
+    data: { type: "part", subType: PART_TYPES.fuelTank },
+    position: { x: 0, y: 0 },
+    style: { width: 400, height: 200 },
+  },
+  {
     id: "fuel",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.fuelTank },
-    position: { x: 0, y: 0 },
+    data: { type: "part", subType: PART_TYPES.fuel },
+    parentId: "fuelTank",
+    position: { x: 25, y: 100 },
+    extent: "parent",
   },
   {
     id: "engine",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.engine },
-    position: { x: 0, y: 150 },
+    data: { type: "part", subType: PART_TYPES.engine },
+    position: { x: 0, y: 250 },
   },
   {
     id: "transmission",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.transmission },
-    position: { x: 400, y: 150 },
+    data: { type: "part", subType: PART_TYPES.transmission },
+    position: { x: 400, y: 250 },
   },
   {
     id: "driveshaft",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.driveshaft },
-    position: { x: 800, y: 150 },
+    data: { type: "part", subType: PART_TYPES.driveshaft },
+    position: { x: 800, y: 250 },
   },
   {
     id: "differential",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.differential },
-    position: { x: 1200, y: 150 },
+    data: { type: "part", subType: PART_TYPES.differential },
+    position: { x: 1200, y: 250 },
   },
   {
     id: "rearAxle",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.rearAxle },
-    position: { x: 1600, y: 150 },
+    data: { type: "part", subType: PART_TYPES.rearAxle },
+    position: { x: 1600, y: 250 },
   },
   {
     id: "rearWheel1",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.rearWheel1 },
-    position: { x: 2000, y: 150 },
+    data: { type: "part", subType: PART_TYPES.rearWheel1 },
+    position: { x: 2000, y: 250 },
   },
   {
     id: "rearWheel2",
     type: "engineeringPart",
-    data: { type: "group part", subType: PART_TYPES.rearWheel2 },
-    position: { x: 2000, y: 300 },
+    data: { type: "part", subType: PART_TYPES.rearWheel2 },
+    position: { x: 2000, y: 350 },
   },
 ];
 
 const initialEdges = [
   {
-    id: "fuel-to-engine",
-    source: "fuel", // Node ID of the fuel
-    sourceHandle: "fuel-out", // Handle ID of the fuel node
+    id: "fuelTank-to-engine",
+    source: "fuelTank", // Node ID of the fuel
+    sourceHandle: "fuelTank-out", // Handle ID of the fuel node
     target: "engine", // Node ID of the engine
     targetHandle: "engine-in", // Handle ID of the engine node
-    style: { stroke: "black", strokeWidth: 4 },
+    label: "fuel",
+    markerEnd: { type: "arrowclosed", width: 10, height: 10 },
   },
   {
     id: "engine-to-transmission",
@@ -77,7 +91,8 @@ const initialEdges = [
     sourceHandle: "engine-torque",
     target: "transmission",
     targetHandle: "transmission-in",
-    style: { stroke: "black", strokeWidth: 4 },
+    label: "torque",
+    markerEnd: { type: "arrowclosed", width: 10, height: 10 },
   },
   {
     id: "transmission-driveshaft",
@@ -85,7 +100,6 @@ const initialEdges = [
     sourceHandle: "transmission-out",
     target: "driveshaft",
     targetHandle: "driveshaft-in",
-    style: { stroke: "black", strokeWidth: 4 },
   },
   {
     id: "driveshaft-differential",
@@ -93,7 +107,6 @@ const initialEdges = [
     sourceHandle: "driveshaft-out",
     target: "differential",
     targetHandle: "differential-in",
-    style: { stroke: "black", strokeWidth: 4 },
   },
   {
     id: "differential-rearAxle",
@@ -101,7 +114,6 @@ const initialEdges = [
     sourceHandle: "differential-out",
     target: "rearAxle",
     targetHandle: "rearAxle-in",
-    style: { stroke: "black", strokeWidth: 4 },
   },
   {
     id: "rearAxle-wheel1",
@@ -109,7 +121,6 @@ const initialEdges = [
     sourceHandle: "rearAxle-out1",
     target: "rearWheel1",
     targetHandle: "rearWheel1-in",
-    style: { stroke: "black", strokeWidth: 4 },
   },
   {
     id: "rearAxle-wheel2",
@@ -117,7 +128,6 @@ const initialEdges = [
     sourceHandle: "rearAxle-out2",
     target: "rearWheel2",
     targetHandle: "rearWheel2-in",
-    style: { stroke: "black", strokeWidth: 4 },
   },
 ];
 
@@ -132,20 +142,49 @@ export default function CustomReactFlow() {
     [setEdges],
   );
 
+  const onReconnect = useCallback(
+    (oldEdge, newConnection) =>
+      setEdges((els) => reconnectEdge(oldEdge, newConnection, els)),
+    [],
+  );
+
+  const addNode = () => {
+    setNodes((currentNodes) => [
+      ...currentNodes,
+      {
+        id: `node-${nodes.length + 1}`,
+        type: "engineeringPart",
+        data: { type: "part", subType: PART_TYPES.fuelTank },
+        position: { x: Math.random() * 400, y: Math.random() * 400 },
+      },
+    ]);
+  };
+
   return (
     <div className="border-2 border-gray-500 rounded-lg shadow-lg bg-white p-2 w-[80vw] h-[70vh] flex justify-center items-center">
       {/*<div style={{ height: "100%", width: "100%" }}>*/}
       <ReactFlow
+        // ref={ref}
         nodes={nodes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onReconnect={onReconnect}
         edges={edges}
         nodeTypes={nodeTypes}
         connectionMode={ConnectionMode.Loose}
         fitView={true}
+        defaultEdgeOptions={{
+          style: {
+            stroke: "black",
+            strokeWidth: 4,
+          },
+        }}
       >
-        {/*<Background color={"#ccc"} variant="cross" />*/}
+        <Controls>
+          <ControlButton onClick={() => addNode()}>➕</ControlButton>
+        </Controls>
+        <Background color={"#ccc"} variant="cross" />
       </ReactFlow>
     </div>
   );

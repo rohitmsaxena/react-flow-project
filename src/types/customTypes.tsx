@@ -18,7 +18,7 @@ export const PART_TYPES = {
 export type PartType = keyof typeof PART_TYPES; // "fuelTank" | "fuel" | ...
 
 export const PART_HANDLES = {
-  fuelTank: [{ type: "source", position: Position.Bottom, id: "fuel-out" }],
+  fuelTank: [{ type: "source", position: Position.Bottom, id: "fuelTank-out" }],
   fuel: [],
   engine: [
     { type: "target", position: Position.Top, id: "engine-in" },
